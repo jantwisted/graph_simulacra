@@ -24,10 +24,15 @@ def get_matrix():
     (x, y) = matrix_construct()
     return input_matrix(x, y)
 
-if __name__=='__main__':
+def draw_graph(matrix_array):
+    """draws the graph based on adjacency matrix"""
     G = nx.Graph()
-    matrix_array = get_matrix()
-    adj = np.array(matrix_array)
-    G = nx.from_numpy_matrix(adj)
+    adjacency_matrix = np.array(matrix_array)
+    G = nx.from_numpy_matrix(adjacency_matrix)
     nx.draw(G, cmap = plt.get_cmap('jet'), with_labels=True)
     plt.show()
+
+if __name__=='__main__':
+    """main method"""
+    matrix_array = get_matrix()
+    draw_graph(matrix_array)
