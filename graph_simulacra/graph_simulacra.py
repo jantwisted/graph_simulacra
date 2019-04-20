@@ -4,7 +4,6 @@ import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 
-"""Main module."""
 
 def input_matrix(v = 1):
     matrix_array = []
@@ -14,6 +13,15 @@ def input_matrix(v = 1):
         matrix_array.append(list(map(int, row.split(','))))
         i += 1
     return matrix_array
+
+
+def input_matrix_from_file(fd):
+    shadow_list = []
+    with open(fd, 'r') as f:
+        h_list = [line.rstrip('\n') for line in f]
+        for idx, r in enumerate(h_list):
+            shadow_list.insert(idx, [int(i) for i in r.split(',')])
+    return shadow_list
 
 def matrix_construct():
     v = int(input("Insert # of Vertices:\n"))
