@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """The setup script."""
@@ -17,6 +17,12 @@ setup_requirements = ['pytest-runner', ]
 
 test_requirements = ['pytest', ]
 
+DATA_FILES = [
+    ('/usr/share/icons/graph_simulacra', ['icons/icons8-plus-48.png']),
+    ('/usr/share/icons/graph_simulacra', ['icons/icons8-save-48.png']),
+    ('/usr/share/icons/graph_simulacra', ['icons/icons8-quill-with-ink-48.png'])
+]
+
 setup(
     author="Janith Perera",
     author_email='janith@member.fsf.org',
@@ -25,13 +31,7 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
     ],
     description="A graphical presentation of graph matrices.",
     entry_points={
@@ -46,6 +46,7 @@ setup(
     keywords='graph_simulacra',
     name='graph_simulacra',
     packages=find_packages(include=['graph_simulacra']),
+    data_files=DATA_FILES,
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,

@@ -1,16 +1,30 @@
 # -*- coding: utf-8 -*-
 
+
 """Console script for graph_simulacra."""
 import sys
 import click
 from graph_simulacra import graph_simulacra
+from graph_simulacra.ui_wrapper import MainWindow
+from PyQt5.QtWidgets import *
 
 
 @click.command()
-def main(args=None):
+@click.option('--verbose', is_flag=True, help="Will print verbose messages.")
+@click.option('--xwindow', '-X', is_flag=True, help="gui")
+@click.option('--native', is_flag=True, help="native mode")
+def main(verbose, xwindow, native):
     """Console script for graph_simulacra."""
-    matrix_array = graph_simulacra.get_matrix()
-    graph_simulacra.draw_graph(matrix_array)
+    if verbose:
+        print("verbose message")
+    elif xwindow:
+        print("X window")
+        app = QApplication(sys.argv)
+        window = MainWindow()
+        sys.exit(app.exec_())
+    elif native:
+        matrix_array = graph_simulacra.get_matrix()
+        graph_simulacra.draw_graph(matrix_array)
     return 0
 
 
