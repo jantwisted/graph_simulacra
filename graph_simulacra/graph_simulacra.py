@@ -49,13 +49,13 @@ def draw_graph(matrix_array):
     G = nx.from_numpy_matrix(adjacency_matrix)
 
     # Setting up the rank
-    rank_map = get_vertex_rank()
-    nx.set_node_attributes(G, rank_map, 'rank')
+    #rank_map = get_vertex_rank()
+   # nx.set_node_attributes(G, rank_map, 'rank')
 
     # Setting up the labels
-    labels_map = get_label_map()
-    labels_map = get_label_with_attribute(labels_map, rank_map)
-    G = nx.relabel_nodes(G, labels_map)
+   # labels_map = get_label_map()
+  #  labels_map = get_label_with_attribute(labels_map, rank_map)
+   # G = nx.relabel_nodes(G, labels_map)
 
     # Draw Graph
     g_nodes = nx.spring_layout(G)
@@ -70,6 +70,6 @@ def draw_graph(matrix_array):
     #     customer_node_attributes[node] = "r:" + attr
     # nx.draw_networkx_labels(G, g_node_attributes, labels=customer_node_attributes)
     nx.draw_networkx_labels(G, g_nodes, )
-    plt.show()
+    plt.savefig('/tmp/testplot.png')
 
 

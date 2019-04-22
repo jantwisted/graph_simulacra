@@ -3,6 +3,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from graph_simulacra.simulacra_ui import Ui_MainWindow
+from graph_simulacra.graph_simulacra import input_matrix_from_file
+from graph_simulacra.graph_simulacra import draw_graph
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -15,8 +17,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def add_file(self):
         fname = QFileDialog.getOpenFileName(self, 'Open file',
-                                        '/home',"Image files (*.jpg *.gif)")
-        print(fname)
+                                        '/home',"Text files (*.txt)")
+        matrix_array = input_matrix_from_file(fname[0])
+        draw_graph(matrix_array)
+        self.webView.load(QUrl("file:///tmp/testplot.png"))
 
 
     def save_file(self):

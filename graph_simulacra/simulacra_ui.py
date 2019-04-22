@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5 import QtWebEngineWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -25,6 +25,18 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 779, 499))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.scrollArea_4 = QtWidgets.QScrollArea(self.scrollAreaWidgetContents)
+        self.scrollArea_4.setGeometry(QtCore.QRect(0, 0, 781, 501))
+        self.scrollArea_4.setWidgetResizable(True)
+        self.scrollArea_4.setObjectName("scrollArea_4")
+        self.scrollAreaWidgetContents_4 = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 779, 499))
+        self.scrollAreaWidgetContents_4.setObjectName("scrollAreaWidgetContents_4")
+        self.webView = QtWebEngineWidgets.QWebEngineView(self.scrollAreaWidgetContents_4)
+        self.webView.setGeometry(QtCore.QRect(0, 0, 781, 501))
+#        self.webView.setUrl(QtCore.QUrl("file:///home/jantwisted/testplot.png"))
+        self.webView.setObjectName("webView")
+        self.scrollArea_4.setWidget(self.scrollAreaWidgetContents_4)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.scrollArea_2 = QtWidgets.QScrollArea(self.centralwidget)
         self.scrollArea_2.setGeometry(QtCore.QRect(800, 10, 181, 241))
@@ -75,4 +87,8 @@ class Ui_MainWindow(object):
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionSave.setText(_translate("MainWindow", "Save"))
+
+
+
+
 
