@@ -3,6 +3,7 @@
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
+import string
 
 class Node(object):
     def __init__(self, index, name, degree, rank):
@@ -10,15 +11,6 @@ class Node(object):
         self.name = name
         self.degree = degree
         self.rank = rank
-
-def input_matrix(v = 1):
-    matrix_array = []
-    print("Insert the |V| × |V| matrix, separated by (,) and RETURN")
-    for i in range(v):
-        row = input()
-        matrix_array.append(list(map(int, row.split(','))))
-        i += 1
-    return matrix_array
 
 
 def input_matrix_from_file(fd):
@@ -31,11 +23,27 @@ def input_matrix_from_file(fd):
 
 
 
-def get_label_with_attribute(labels_map, rank_map):
-    for rank_key, rank_value in rank_map.items():
-        labels_map[rank_key] += ' : ' + rank_value
+def get_label_with_attribute(G, rank_list):
+    labels_map = {}
+    labels_list = list(string.ascii_lowercase)[0:len(G)]
+    for idx, i in enumerate(rank_list):
+        labels_map[idx] = labels_list[idx] + ':' + str(i)
     return labels_map
 
+def get_fixed_positions(rank_list, labels_map):
+    fixed_positions = {}
+    highest_rank = max(rank_list)
+    highest_rank_idx = rank_list.index(max(rank_list))
+
+    r = 1
+    while (r<=highest_rank):
+        indices = [i for i, x in enumerate(rank_list) if x == r]
+        for q in indices:
+            fixed_positions[labels_map[q]]= (q+1,r)
+        r += 1
+    return fixed_positions        
+
+        
 
 def draw_graph(matrix_array):
     """draws the graph based on adjacency matrix"""
@@ -45,30 +53,20 @@ def draw_graph(matrix_array):
     adjacency_matrix = np.array(matrix_array)
     G = nx.from_numpy_matrix(adjacency_matrix)
     G = set_ranks(G)
+    rank_list = get_rank_list(G)
     print_ranks(G)
     node_list = node_details(G)
-    # Setting up the rank
-    #rank_map = get_vertex_rank()
-   # nx.set_node_attributes(G, rank_map, 'rank')
 
-    # Setting up the labels
-   # labels_map = get_label_map()
-  #  labels_map = get_label_with_attribute(labels_map, rank_map)
-   # G = nx.relabel_nodes(G, labels_map)
+    labels_map = get_label_with_attribute(G, rank_list)
+    G = nx.relabel_nodes(G, labels_map, copy=False)
 
     # Draw Graph
-    g_nodes = nx.spring_layout(G)
+    fixed_positions = get_fixed_positions(rank_list, labels_map)
+    fixed_nodes = fixed_positions.keys()
     plt.figure()
-    nx.draw(G, g_nodes, cmap = plt.get_cmap('jet'), with_labels=True)
-    # g_node_attributes = {}
-    # for node, coordinates in g_nodes.items():
-    #     g_node_attributes[node] = (coordinates[0], coordinates[1] - 0.2)
-    # node_attributes = nx.get_node_attributes(G, 'rank')
-    # customer_node_attributes = {}
-    # for node, attr in node_attributes.items():
-    #     customer_node_attributes[node] = "r:" + attr
-    # nx.draw_networkx_labels(G, g_node_attributes, labels=customer_node_attributes)
-    nx.draw_networkx_labels(G, g_nodes, )
+    g_nodes = nx.spring_layout(G, pos=fixed_positions, fixed = fixed_nodes)
+    nx.draw(G, g_nodes, with_labels=True, node_size=900)
+    nx.draw_networkx_labels(G, g_nodes, bbox=dict(facecolor='yellow'))
     plt.savefig('/tmp/testplot.png')
 
 def node_details(G):
@@ -95,6 +93,12 @@ def set_ranks(G):
     exclude_nodes = rank_nodes_level_one(G, exclude_nodes)
     return G
 
+def get_rank_list(G):
+    rank_list = []
+    for i in range(len(G)):
+        rank_list.append(int(G.nodes[i]['rank']))
+    return rank_list
+
 def rank_nodes_level_one(G, exclude_nodes):
     '''raise the rank of nodes, which has similar plural neighbors'''
     node_list = []
@@ -105,8 +109,7 @@ def rank_nodes_level_one(G, exclude_nodes):
             minor_rank_list = []
             equal_rank_list = []
             for n_node in list(G.neighbors(i)):
-                # check minor and equal nodes
-                
+                # check minor and equal nodes                
                 if int(G.nodes[i]['rank']) == int(G.nodes[n_node]['rank']):
                     equal_rank_list.append(n_node)
                 elif int(G.nodes[i]['rank']) > int(G.nodes[n_node]['rank']):
