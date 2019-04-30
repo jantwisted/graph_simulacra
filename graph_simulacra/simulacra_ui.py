@@ -34,7 +34,6 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents_4.setObjectName("scrollAreaWidgetContents_4")
         self.webView = QtWebEngineWidgets.QWebEngineView(self.scrollAreaWidgetContents_4)
         self.webView.setGeometry(QtCore.QRect(0, 0, 781, 501))
-#        self.webView.setUrl(QtCore.QUrl("file:///home/jantwisted/testplot.png"))
         self.webView.setObjectName("webView")
         self.scrollArea_4.setWidget(self.scrollAreaWidgetContents_4)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
