@@ -21,7 +21,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def add_file(self):
         try:
             fname = QFileDialog.getOpenFileName(self, 'Open file',
-                                                '/home',"Text files (*.txt)")
+                                                '',"Text files (*.txt)")
             
             matrix_array = input_matrix_from_file(fname[0])
             draw_graph(matrix_array)
@@ -33,7 +33,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def save_file(self):
         try:
             fname = QFileDialog.getSaveFileName(self, 'Save file',
-                                                '/home/')
+                                                '')
             plot_image = Image.open('/tmp/testplot.png')
             plot_image.save(fname[0])
         except FileNotFoundError:
