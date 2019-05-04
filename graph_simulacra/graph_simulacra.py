@@ -99,42 +99,37 @@ def get_rank_list(G):
         rank_list.append(int(G.nodes[i]['rank']))
     return rank_list
 
+def get_keys_from_value(dlist, value):
+    keys_list = []
+    for d in dlist:
+        if value == d['rank']:
+            keys_list.append(d['idx'])
+    print(keys_list)
+    return keys_list
+
 def rank_nodes_level_one(G, exclude_nodes):
     '''raise the rank of nodes, which has similar plural neighbors'''
     node_list = []
     for i in range(len(G)):
         if i not in exclude_nodes:
-            minor_rank_list = []
-            equal_rank_list = []
-            super_rank_list = []
-            max_rank = 0
+            nb_dict = []
+            self_idx = i
+            self_rank = int(G.nodes[i]['rank'])
             for n_node in list(G.neighbors(i)):
-                # check minor, equal and superior nodes                
-                if int(G.nodes[i]['rank']) == int(G.nodes[n_node]['rank']):
-                    equal_rank_list.append(n_node)
-                elif int(G.nodes[i]['rank']) > int(G.nodes[n_node]['rank']):
-                    minor_rank_list.append(n_node)
-                elif int(G.nodes[i]['rank']) < int(G.nodes[n_node]['rank']):
-                    super_rank_list.append(n_node)
-                    max_rank = int(G.nodes[n_node]['rank'])
+                nb_dict.append({'idx':n_node, 'rank':int(G.nodes[n_node]['rank'])})
 
-            # if both minor and equal present
-            if minor_rank_list and equal_rank_list and not super_rank_list:
-                for equal_node in equal_rank_list:
-                    G.nodes[equal_node]['rank'] = str(int(G.nodes[equal_node]['rank'])+1)
-                    node_list.append(i)
-            # if only equal present
-            elif not minor_rank_list and equal_rank_list and not super_rank_list:
-                for equal_node in equal_rank_list:
-                    G.nodes[i]['rank'] = str(int(G.nodes[i]['rank'])+1)
-                    node_list.append(i)
-            # if all are present
-            elif minor_rank_list and equal_rank_list and super_rank_list:
-                for equal_node in equal_rank_list:
-                    G.nodes[equal_node]['rank'] = str(max_rank+1)
-                    node_list.append(i)
+            list_of_nb_ranks = [d['rank'] for d in nb_dict]
 
-
+            if max(list_of_nb_ranks) < self_rank:
+                continue
+            elif max(list_of_nb_ranks) == self_rank and min(list_of_nb_ranks) == self_rank:
+                G.nodes[self_idx]['rank'] = str(self_rank+1)
+            elif max(list_of_nb_ranks) == self_rank and min(list_of_nb_ranks) < self_rank:
+                for i in get_keys_from_value(nb_dict, self_rank):
+                    G.nodes[i]['rank'] = str(self_rank+1)
+            elif max(list_of_nb_ranks) > self_rank and self_rank in list_of_nb_ranks:
+                G.nodes[self_idx]['rank'] = str(max(list_of_nb_ranks)+1)
+            node_list.append(i)
                 
     return exclude_nodes+node_list
                 
