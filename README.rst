@@ -26,6 +26,7 @@ Requirements
 -------------
 
 * qtchooser -run-tool=designer -qt=5
+* pyuic5 -x simulacra_window.ui -o simulacra_ui.py
 
 Features
 --------
