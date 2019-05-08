@@ -22,6 +22,10 @@ A graphical presentation of graph matrices.
 * Free software: GNU General Public License v3
 * Documentation: https://graph-simulacra.readthedocs.io.
 
+Requirements
+-------------
+
+* qtchooser -run-tool=designer -qt=5
 
 Features
 --------
