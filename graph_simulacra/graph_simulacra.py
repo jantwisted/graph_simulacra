@@ -23,11 +23,15 @@ def input_matrix_from_file(fd):
 
 
 
-def get_label_with_attribute(G, rank_list):
+def get_label_with_attribute(G, rank_list=[]):
     labels_map = {}
     labels_list = list(string.ascii_lowercase)[0:len(G)]
-    for idx, i in enumerate(rank_list):
-        labels_map[idx] = labels_list[idx] + ':' + str(i)
+    if not rank_list:
+        for idx, i in enumerate(labels_list):
+            labels_map[idx] = labels_list[idx]
+    else:
+        for idx, i in enumerate(rank_list):
+            labels_map[idx] = labels_list[idx] + ':' + str(i)
     return labels_map
 
 def get_fixed_positions(rank_list, labels_map):
@@ -68,6 +72,30 @@ def draw_graph(matrix_array):
     nx.draw(G, g_nodes, with_labels=True, node_size=900)
     nx.draw_networkx_labels(G, g_nodes, bbox=dict(facecolor='yellow'))
     plt.savefig('/tmp/testplot.png')
+
+
+def draw_graph_native(matrix_array):
+    """draws the graph based on adjacency matrix"""
+
+    # Initialize the Graph
+    G = nx.Graph()
+    adjacency_matrix = np.array(matrix_array)
+    G = nx.from_numpy_matrix(adjacency_matrix)
+#    G = set_ranks(G)
+#    rank_list = get_rank_list(G)
+#    print_ranks(G)
+#    node_list = node_details(G)
+
+    labels_map = get_label_with_attribute(G)
+    G = nx.relabel_nodes(G, labels_map, copy=False)
+
+    # Draw Graph
+    plt.figure()
+    g_nodes = nx.spring_layout(G)
+    nx.draw(G, g_nodes, with_labels=True, node_size=900)
+    nx.draw_networkx_labels(G, g_nodes, bbox=dict(facecolor='yellow'))
+    plt.savefig('/tmp/testplot_native.png')
+
 
 def node_details(G):
     node_list = []

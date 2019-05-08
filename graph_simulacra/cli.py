@@ -23,8 +23,10 @@ def main(verbose, xwindow, native):
         window = MainWindow()
         sys.exit(app.exec_())
     elif native:
-        matrix_array = graph_simulacra.get_matrix()
-        graph_simulacra.draw_graph(matrix_array)
+        print("X(native) window")
+        app = QApplication(sys.argv)
+        window = MainWindow()
+        sys.exit(app.exec_())
     return 0
 
 

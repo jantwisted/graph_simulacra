@@ -20,7 +20,10 @@ test_requirements = ['pytest', ]
 DATA_FILES = [
     ('/usr/share/icons/graph_simulacra', ['icons/icons8-plus-48.png']),
     ('/usr/share/icons/graph_simulacra', ['icons/icons8-save-48.png']),
-    ('/usr/share/icons/graph_simulacra', ['icons/icons8-quill-with-ink-48.png'])
+    ('/usr/share/icons/graph_simulacra', ['icons/icons8-quill-with-ink-48.png']),
+    ('/usr/share/icons/graph_simulacra', ['icons/icons8-reversed-numerical-sorting-48.png']),
+    ('/usr/share/icons/graph_simulacra', ['icons/icons8-undo-48.png']),
+    ('/usr/share/icons/graph_simulacra', ['icons/icons8-redo-48.png'])
 ]
 
 setup(
