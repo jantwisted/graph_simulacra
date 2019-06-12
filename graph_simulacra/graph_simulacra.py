@@ -126,6 +126,7 @@ def rapid_rank(G):
         set_zero_rank_to_one(G, H, list(min_degree_dict.keys()))
         rank_leaf_neighbors(G, H, min_degree_dict)
         rank_leaf_neighbors_if_equal(G, H, min_degree_dict)
+        print("removing....."+str(min_degree_dict))
         mem = remove_leaves(H, min_degree_dict)
 
     if len(H) == 2:
@@ -214,24 +215,28 @@ def get_minimum_degree_dict(H):
     for i in list(H):
         if int(H.degree(i)) == min_degree:
             min_degree_dict[i] = min_degree
-    accepted_list = check_node_adjacency(H, list(min_degree_dict.keys()))
+    declined_list = check_node_adjacency(H, list(min_degree_dict.keys()))
     min_degree_nodes = list(min_degree_dict.keys())
     for i in min_degree_nodes:
-        if i not in accepted_list:
+        if i in declined_list:
             del min_degree_dict[i]
     return min_degree_dict
 
 def check_node_adjacency(H, list_of_nodes):
     '''iterate each node to check adjacency'''
-    accepted_list = []
+    declined_list = []
     if len(list_of_nodes) < 2:
         return list_of_nodes
     else:
+        print("check_node_adj, nodes"+str(list_of_nodes))
         for idx, node in enumerate(list_of_nodes):
             for midx, mnode in enumerate(list_of_nodes[idx:]):
-                if not H.has_edge(node, mnode):
-                    accepted_list.append(node)
-        return accepted_list
+                if  H.has_edge(node, mnode):
+                    print("node: "+str(node)+","+str(mnode))
+                    declined_list.append(node)
+                    break
+        print("check_node_adj:"+str(declined_list))
+        return declined_list
         
 
 def get_degree_dict(H):
