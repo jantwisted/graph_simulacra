@@ -23,7 +23,7 @@ MarkupSafe==1.1.1
 matplotlib==3.0.3
 networkx==2.2
 numpy==1.16.2
-Pillow==6.0.0
+Pillow==6.2.0
 pipreqs==0.4.9
 pycparser==2.19
 PyJWT==1.7.1
