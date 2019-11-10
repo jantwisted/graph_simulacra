@@ -6,11 +6,15 @@ import matplotlib.pyplot as plt
 import string
 
 class Node(object):
-    def __init__(self, index, name, degree, rank):
+    def __init__(self, index, name, degree, rank, p_list = {}, c_list = {}, t_list = {}, neighbors = {}):
         self.index = index
         self.name = name
         self.degree = degree
         self.rank = rank
+        self.p_list = p_list
+        self.c_list = c_list
+        self.t_list = t_list
+        self.neighbors = neighbors
 
 
 def input_matrix_from_file(fd):
@@ -81,10 +85,6 @@ def draw_graph_native(matrix_array):
     G = nx.Graph()
     adjacency_matrix = np.array(matrix_array)
     G = nx.from_numpy_matrix(adjacency_matrix)
-#    G = set_ranks(G)
-#    rank_list = get_rank_list(G)
-#    print_ranks(G)
-#    node_list = node_details(G)
 
     labels_map = get_label_with_attribute(G)
     G = nx.relabel_nodes(G, labels_map, copy=False)
@@ -115,11 +115,89 @@ def set_ranks(G):
     # set all ranks to 0
     nx.set_node_attributes(G, '0', 'rank')
     degree = get_degree_list(G)
+    print("DEBUG HERE")
+    biase_node =  pick_arbitary_node(G)
+    critical_rank(G, G, biase_node)
+    print(degree)
     exclude_nodes = []
-    # rank leaves to 1 and everything else to 2
-    exclude_nodes = rank_leaves(G, exclude_nodes)
-    exclude_nodes = rank_nodes_level_one(G, exclude_nodes)
     return G
+
+# new functions start
+def pick_arbitary_node(G, biase=0):
+    '''picks arbitary node'''
+    max_degree_idx = 0
+    for i in range(len(G)):
+        if max_degree_idx < G.degree[i]:    
+            max_degree_idx = i
+    print(max_degree_idx)
+    return max_degree_idx
+
+
+def critical_rank(OG, G, biase_node, L=[]):
+    '''Iterate through vertecies'''
+    H = G.copy()
+    LSubList = []    
+   
+    if nx.number_of_nodes(H) == 1:
+        L = [1]
+        OG.nodes[biase_node]['rank'] = 1
+        LSubList.append(L)
+    else:
+        adj_list = list(H.neighbors(biase_node))
+        H.remove_node(biase_node)
+        sub_trees = (H.subgraph(c) for c in nx.connected_components(H))
+        for n in sub_trees:
+            biase_node_inner = [v for v in list(n.nodes) if v in adj_list][0] 
+            LSubList.append(critical_rank(OG, n, biase_node_inner, L))
+        L = root_rank(OG, H, biase_node, LSubList)
+
+    return L
+        
+
+def root_rank(OG, G, biase_node, LSubList):
+    ''' Setting the root rank '''
+    t = []
+    try:
+        for n in LSubList:
+          t.append(max(n)) if n!=[] else t.append(0)
+
+    except ValueError:
+        t = []
+    try:
+        a = max(t)
+    except ValueError:
+        a = 0
+    c = a + 1
+    avail = a + 1
+    L = []
+    d = len(LSubList)
+    while(OG.nodes[biase_node]['rank'] == '0'):
+        c = c - 1
+        if t.count(c)>1 or (c == 0 or d <= 1):
+            OG.nodes[biase_node]['rank'] = avail
+            try:    
+                L = L+[n for n in L if n > avail]
+            except TypeError:
+                L = []
+            try:
+                L.append(avail)
+            except AttributeError:
+                L = []
+        elif (t.count(c) == 1):
+            idx = t.index(c)
+            try:
+                L.append(c)
+            except AttributeError:
+                L = []
+                L.append(c)
+            LSubList.pop(idx) 
+            t.pop(idx)
+        elif (t.count(c) == 0):
+            avail = c
+    return L
+
+# new functions end
+
 
 def get_rank_list(G):
     rank_list = []
@@ -127,59 +205,11 @@ def get_rank_list(G):
         rank_list.append(int(G.nodes[i]['rank']))
     return rank_list
 
-def get_keys_from_value(dlist, value):
-    keys_list = []
-    for d in dlist:
-        if value == d['rank']:
-            keys_list.append(d['idx'])
-    print(keys_list)
-    return keys_list
-
-def rank_nodes_level_one(G, exclude_nodes):
-    '''raise the rank of nodes, which has similar plural neighbors'''
-    node_list = []
-    for i in range(len(G)):
-        if i not in exclude_nodes:
-            nb_dict = []
-            self_idx = i
-            self_rank = int(G.nodes[i]['rank'])
-            for n_node in list(G.neighbors(i)):
-                nb_dict.append({'idx':n_node, 'rank':int(G.nodes[n_node]['rank'])})
-
-            list_of_nb_ranks = [d['rank'] for d in nb_dict]
-
-            if max(list_of_nb_ranks) < self_rank:
-                continue
-            elif max(list_of_nb_ranks) == self_rank and min(list_of_nb_ranks) == self_rank:
-                G.nodes[self_idx]['rank'] = str(self_rank+1)
-            elif max(list_of_nb_ranks) == self_rank and min(list_of_nb_ranks) < self_rank:
-                for i in get_keys_from_value(nb_dict, self_rank):
-                    G.nodes[i]['rank'] = str(self_rank+1)
-            elif max(list_of_nb_ranks) > self_rank and self_rank in list_of_nb_ranks:
-                G.nodes[self_idx]['rank'] = str(max(list_of_nb_ranks)+1)
-            node_list.append(i)
-                
-    return exclude_nodes+node_list
-                
-def rank_leaves(G, exclude_nodes):
-    '''rank leaves to 1 and everything else to 2'''
-    leaves_list = []
-    for i in range(len(G)):
-        if i not in exclude_nodes:
-            if G.degree(i)==1:
-                leaves_list.append(i)
-                G.nodes[i]['rank'] = 1
-            else:
-                G.nodes[i]['rank'] = 2
-
-    return exclude_nodes + leaves_list
-            
+                           
 
 def print_ranks(G):
     for i in range(len(G)):
         print('-----------------------------------')
         print('node => '+str(i))
-#        print('neighbors => '+str(list(G.neighbors(i))))
-#        print('degree => '+str(G.degree(i)))
         print('rank => '+str(G.nodes[i]['rank']))
         
