@@ -24,7 +24,7 @@ A graphical presentation of graph matrices.
 
 Requirements
 -------------
-
+* install python3-tk
 * qtchooser -run-tool=designer -qt=5
 * pyuic5 -x simulacra_window.ui -o simulacra_ui.py
 
