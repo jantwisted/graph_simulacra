@@ -115,7 +115,6 @@ def set_ranks(G):
     # set all ranks to 0
     nx.set_node_attributes(G, '0', 'rank')
     degree = get_degree_list(G)
-    print("DEBUG HERE")
     biase_node =  pick_arbitary_node(G)
     critical_rank(G, G, biase_node)
     print(degree)
@@ -150,7 +149,7 @@ def critical_rank(OG, G, biase_node, L=[]):
             biase_node_inner = [v for v in list(n.nodes) if v in adj_list][0] 
             LSubList.append(critical_rank(OG, n, biase_node_inner, L))
         L = root_rank(OG, H, biase_node, LSubList)
-
+        print(L)
     return L
         
 
@@ -160,29 +159,32 @@ def root_rank(OG, G, biase_node, LSubList):
     try:
         for n in LSubList:
           t.append(max(n)) if n!=[] else t.append(0)
-
     except ValueError:
         t = []
     try:
         a = max(t)
     except ValueError:
         a = 0
+
     c = a + 1
     avail = a + 1
     L = []
     d = len(LSubList)
+
     while(OG.nodes[biase_node]['rank'] == '0'):
         c = c - 1
-        if t.count(c)>1 or (c == 0 or d <= 1):
+        if t.count(c)>1 or (c == 0 and d <= 1):
             OG.nodes[biase_node]['rank'] = avail
             try:    
-                L = L+[n for n in L if n > avail]
+                L = [n for n in L if n > avail]
+                L = list(set(L))
             except TypeError:
                 L = []
             try:
                 L.append(avail)
             except AttributeError:
                 L = []
+#            debugger(biase_node, avail, c, t, d, L, LSubList)
         elif (t.count(c) == 1):
             idx = t.index(c)
             try:
@@ -190,14 +192,41 @@ def root_rank(OG, G, biase_node, LSubList):
             except AttributeError:
                 L = []
                 L.append(c)
-            LSubList.pop(idx) 
-            t.pop(idx)
+            try:
+                LSubList[idx].remove(c)
+                if not LSubList[idx] and d>0:
+                    d -= 1
+            except ValueError:
+                LSubList[idx]
+            try:
+                t[idx] = max(LSubList[idx])
+            except ValueError:
+                t.pop(idx)
+             
         elif (t.count(c) == 0):
             avail = c
     return L
 
 # new functions end
 
+# tester
+
+
+
+#def debugger(biase_node, avail, c, t, d, L, LSubList):
+    #if (biase_node == 5):
+        #print("--------------------------")
+        #print("biase => "+str(biase_node))
+        #print("avail=> "+str(avail))
+        #print("c => "+str(c))
+        #print("t count=> "+str(t.count(c)))
+        #print("t => "+str(t))
+        #print("d => "+str(d))
+        #print("L => "+str(L))
+        #print("LSubList => "+str(LSubList))
+        #print("--------------------------")
+
+# tester
 
 def get_rank_list(G):
     rank_list = []
