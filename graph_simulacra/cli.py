@@ -10,23 +10,11 @@ from PyQt5.QtWidgets import *
 
 
 @click.command()
-@click.option('--verbose', is_flag=True, help="Will print verbose messages.")
-@click.option('--xwindow', '-X', is_flag=True, help="gui")
-@click.option('--native', is_flag=True, help="native mode")
-def main(verbose, xwindow, native):
+def main():
     """Console script for graph_simulacra."""
-    if verbose:
-        print("verbose message")
-    elif xwindow:
-        print("X window")
-        app = QApplication(sys.argv)
-        window = MainWindow()
-        sys.exit(app.exec_())
-    elif native:
-        print("X(native) window")
-        app = QApplication(sys.argv)
-        window = MainWindow()
-        sys.exit(app.exec_())
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    sys.exit(app.exec_())
     return 0
 
 
