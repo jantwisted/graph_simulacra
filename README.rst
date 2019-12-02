@@ -3,19 +3,6 @@ Graph Simulacra
 ===============
 
 
-.. image:: https://img.shields.io/pypi/v/graph_simulacra.svg
-        :target: https://pypi.python.org/pypi/graph_simulacra
-
-.. image:: https://img.shields.io/travis/jantwisted/graph_simulacra.svg
-        :target: https://travis-ci.org/jantwisted/graph_simulacra
-
-.. image:: https://readthedocs.org/projects/graph-simulacra/badge/?version=latest
-        :target: https://graph-simulacra.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
-
-
-
-
 Ranking of Graphs simulation software, a mathematical model for parallel tasks.
 
 
