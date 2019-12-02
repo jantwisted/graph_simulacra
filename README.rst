@@ -16,7 +16,7 @@ Graph Simulacra
 
 
 
-A graphical presentation of graph matrices.
+Ranking of Graphs simulation software, a mathematical model for parallel tasks.
 
 
 * Free software: GNU General Public License v3
@@ -28,15 +28,17 @@ Requirements
 * qtchooser -run-tool=designer -qt=5
 * pyuic5 -x simulacra_window.ui -o simulacra_ui.py
 
+Installation
+-------------
+* pip3 install -r requirements.txt
+* python3 setup.py install
+
 Features
 --------
 
 * TODO
 
-Credits
+Authors
 -------
 
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
-
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+Janith Perera, University of Pannonia.
