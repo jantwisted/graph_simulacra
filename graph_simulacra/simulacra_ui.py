@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'simulacra_window.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.1
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,7 +12,7 @@ from PyQt5 import QtWebEngineWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(989, 600)
+        MainWindow.resize(801, 600)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("/usr/share/icons/graph_simulacra/icons8-quill-with-ink-48.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -37,22 +37,6 @@ class Ui_MainWindow(object):
         self.webView.setObjectName("webView")
         self.scrollArea_4.setWidget(self.scrollAreaWidgetContents_4)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.scrollArea_2 = QtWidgets.QScrollArea(self.centralwidget)
-        self.scrollArea_2.setGeometry(QtCore.QRect(800, 10, 181, 241))
-        self.scrollArea_2.setWidgetResizable(True)
-        self.scrollArea_2.setObjectName("scrollArea_2")
-        self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 179, 239))
-        self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
-        self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
-        self.scrollArea_3 = QtWidgets.QScrollArea(self.centralwidget)
-        self.scrollArea_3.setGeometry(QtCore.QRect(800, 260, 181, 251))
-        self.scrollArea_3.setWidgetResizable(True)
-        self.scrollArea_3.setObjectName("scrollArea_3")
-        self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 179, 249))
-        self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
-        self.scrollArea_3.setWidget(self.scrollAreaWidgetContents_3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
