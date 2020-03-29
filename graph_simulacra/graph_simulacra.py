@@ -207,26 +207,6 @@ def root_rank(OG, G, biase_node, LSubList):
             avail = c
     return L
 
-# new functions end
-
-# tester
-
-
-
-#def debugger(biase_node, avail, c, t, d, L, LSubList):
-    #if (biase_node == 5):
-        #print("--------------------------")
-        #print("biase => "+str(biase_node))
-        #print("avail=> "+str(avail))
-        #print("c => "+str(c))
-        #print("t count=> "+str(t.count(c)))
-        #print("t => "+str(t))
-        #print("d => "+str(d))
-        #print("L => "+str(L))
-        #print("LSubList => "+str(LSubList))
-        #print("--------------------------")
-
-# tester
 
 def get_rank_list(G):
     rank_list = []
