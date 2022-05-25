@@ -23,7 +23,7 @@ numpy==1.16.2
 Pillow>=6.2.0
 pipreqs==0.4.9
 pycparser==2.19
-PyJWT==1.7.1
+PyJWT==2.4.0
 pyparsing==2.3.1
 PyQt5==5.12
 PyQt5-sip==4.19.15
